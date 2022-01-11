@@ -176,7 +176,7 @@ window.addEventListener('devicemotion', function(e)
   // get accelerometer values
   //x = e.accelerationIncludingGravity.x;
 
-  if(e.accelerationIncludingGravity.x<0 && acelx<5){
+  /*if(e.accelerationIncludingGravity.x<0 && acelx<5){
     acelx+=0.1;
   }
 
@@ -198,6 +198,19 @@ window.addEventListener('devicemotion', function(e)
   
    else if(e.accelerationIncludingGravity.y == 0 || e.accelerationIncludingGravity.y === undefined){
     acely = 0;        
+   }
+   */
+  
+  
+  if(e.accelerationIncludingGravity.x == 0 || e.accelerationIncludingGravity.x === undefined){
+    acelx = 0;        
+   }
+  
+   else if(e.accelerationIncludingGravity.y == 0 || e.accelerationIncludingGravity.y === undefined){
+    acely = 0;        
+   } else {
+     acelx = e.accelerationIncludingGravity.x;
+      acely = e.accelerationIncludingGravity.y;
    }
     
 });
