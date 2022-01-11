@@ -20,7 +20,7 @@
     
   </style>
 
-<p id="demo"></p>
+<!--<p id="demo"></p>-->
 
   <script type="module">
     import * as THREE from 'https://threejs.org/build/three.module.js';
@@ -238,9 +238,9 @@ window.addEventListener('devicemotion', function(e)
  function animate() {
     requestAnimationFrame(animate);
     
-    lupa.rotation.y -= (0.001 * scrollCount * acely);
-    busto.rotation.y += (0.001 * acelx);
-   document.getElementById("demo").innerHTML = acely;
+    lupa.rotation.y += (0.001 * scrollCount * acely);
+    busto.rotation.y += (0.001 * (acelx - 5));
+   // document.getElementById("demo").innerHTML = acely;
     
 
     renderer.render(scene, camera);
