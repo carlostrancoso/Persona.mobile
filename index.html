@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Persona</title>
+  <style>
+    html, body {
+        margin: 0;
+        height: 100%;
+    }
+    #c {
+        width: 100%;
+        height: 100%;
+        display: block;
+        background-color: #EDEDED;
+    }
+
+    
+  </style>
+
+<!--<p id="demo"></p>-->
+
+  <script type="module">
+    import * as THREE from 'https://threejs.org/build/three.module.js';
+    import {OrbitControls} from 'https://threejs.org/examples/jsm/controls/OrbitControls.js';
+    import {OBJLoader} from 'https://threejs.org/examples/jsm/loaders/OBJLoader.js';
+    import {MTLLoader} from 'https://threejs.org/examples/jsm/loaders/MTLLoader.js';
+
+
+  
+
+  var canvas = document.querySelector('#c');
+  var renderer = new THREE.WebGLRenderer({canvas, alpha:true});
+  renderer.setClearColor( 0xEDEDED, 0 );
+
+  var fov = 25;
+  var aspect = 2;  // the canvas default
+  var near = 0.1;
+  var far = 50;
+  var camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+  camera.position.set(0, 10, 20);
+
+  var controls = new OrbitControls(camera, canvas);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;  
+  controls.target.set(0, 2, 0);
+  controls.enableZoom = false;
+  controls.enablePan = false;
+
+  const bgcolor = new THREE.Color(0xEDEDED);
+  const scene = new THREE.Scene();
+  scene.background = bgcolor;
+
+
+  {
+  scene.fog = new THREE.Fog(bgcolor, 20, 21.5);
+  }
+
+  
+
+  {
+    var skyColor = 0xB1E1FF;  // light blue
+    var groundColor = 0xB97A20;  // brownish orange
+    var intensity = 0.4;
+    var light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+    scene.add(light);
+  }
+
+  {
+    //luz vermelha
+    var color = 0xE7071B;
+    var intensity = 4;
+    var light = new THREE.DirectionalLight(color, intensity);
+    light.position.set(5, 10, 10);
+    scene.add(light);
+    scene.add(light.target);
+  }
+
+  { 
+    //luz azul
+    var color = 0x0000FF;
+    var intensity = 3;
+    var light = new THREE.DirectionalLight(color, intensity);
+    light.position.set(10, 12, 2);
+    scene.add(light);
+    scene.add(light.target);
+  }
+
+  { 
+    //luz verde
+    var color = 0x00FF00;
+    var intensity = 2;
+    var light = new THREE.DirectionalLight(color, intensity);
+    light.position.set(-10, 5, 2);
+    scene.add(light);
+    scene.add(light.target);
+  }
+
+  //lupa
+var lupa;
+  {
+    var objLoader = new OBJLoader();
+    var mat = new THREE.MeshPhysicalMaterial({});
+mat.reflectivity = 0
+mat.transmission = 1
+mat.roughness = 0.2
+mat.metalness = 0
+mat.clearcoat = 0.3
+mat.clearcoatRoughness = 0.25
+mat.color = new THREE.Color(0xffffff)
+mat.ior = 1.2
+mat.thickness = 5
+
+objLoader.load('LUPA.obj', function (obj) {
+        obj.traverse(function (child) {
+
+            if (child instanceof THREE.Mesh) {
+                child.material = mat;
+                mat.side = THREE.DoubleSide;
+            }
+
+        });
+        lupa = obj;
+        scene.add(lupa);
+      lupa.rotation.y = Math.PI;
+    });
+    }
+
+    //busto
+    var busto;
+  {
+    var mtlLoader = new MTLLoader();
+    mtlLoader.load('BUSTO.mtl', (mtl) => {
+      mtl.preload();
+      for (var material of Object.values(mtl.materials)) {
+     material.side = THREE.DoubleSide;
+      }
+      var objLoader = new OBJLoader();
+      objLoader.setMaterials(mtl);
+      objLoader.load('BUSTO.obj', (mesh) => {
+        busto = mesh;
+        scene.add(busto);
+        busto.rotation.y = Math.PI;
+      });
+    });
+    
+  }
+  
+
+  //scroll
+
+  var scrollCount = 0;
+window.addEventListener('mousewheel', function(e){
+
+  if(e.wheelDelta<0 && scrollCount<100){
+    scrollCount+=2;
+  }
+
+  else if(e.wheelDelta>0 && scrollCount>-100){
+    scrollCount-=2;
+  }
+ 
+});
+
+//acelerometro
+
+//var x;
+var acelCount = 1;
+
+window.addEventListener('devicemotion', function(e) 
+{
+  // get accelerometer values
+  //x = e.accelerationIncludingGravity.x;
+
+  if(e.accelerationIncludingGravity.x<0 && acelCount<100){
+    acelCount+=2;
+  }
+
+  else if(e.accelerationIncludingGravity.x>0 && acelCount>-100){
+    acelCount-=2;
+  }
+    
+});
+
+
+
+//responsivo
+
+  function resizeRendererToDisplaySize(renderer) {
+    var canvas = renderer.domElement;
+    var width = canvas.clientWidth;
+    var height = canvas.clientHeight;
+    var needResize = canvas.width !== width || canvas.height !== height;
+    if (needResize) {
+      renderer.setSize(width, height, false);
+    }
+    return needResize;
+  }
+
+
+  //funcao de animacao
+ function animate() {
+    requestAnimationFrame(animate);
+    
+    lupa.rotation.y -= (0.001 * scrollCount);
+    busto.rotation.y += (0.002 * acelCount);
+    //document.getElementById("demo").innerHTML = acelCount;
+    
+
+    renderer.render(scene, camera);
+
+    if (resizeRendererToDisplaySize(renderer)) {
+      var canvas = renderer.domElement;
+      camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      camera.updateProjectionMatrix();
+    }
+    controls.update();
+    
+};
+
+animate();
+
+
+    </script>
+</head>
+
+<body>
+  <canvas id="c"></canvas>
+</body>
+
+</html>
