@@ -20,7 +20,7 @@
     
   </style>
 
-<!--<p id="demo"></p>-->
+<p id="demo"></p>
 
   <script type="module">
     import * as THREE from 'https://threejs.org/build/three.module.js';
@@ -174,12 +174,12 @@ window.addEventListener('devicemotion', function(e)
   // get accelerometer values
   //x = e.accelerationIncludingGravity.x;
 
-  if(e.accelerationIncludingGravity.x<0 && acelCount<100){
-    acelCount+=2;
+  if(e.accelerationIncludingGravity.x<0 && acelCount<10){
+    acelCount+=1;
   }
 
-  else if(e.accelerationIncludingGravity.x>0 && acelCount>-100){
-    acelCount-=2;
+  else if(e.accelerationIncludingGravity.x>0 && acelCount>-10){
+    acelCount-=1;
   }
     
 });
