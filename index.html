@@ -152,7 +152,7 @@ objLoader.load('LUPA.obj', function (obj) {
 
   //scroll
 
-  var scrollCount = 1;
+  var scrollCount = 0;
 window.addEventListener('mousewheel', function(e){
 
   if(e.wheelDelta<0 && scrollCount<100){
@@ -238,8 +238,8 @@ window.addEventListener('devicemotion', function(e)
  function animate() {
     requestAnimationFrame(animate);
     
-    lupa.rotation.y += (0.001 * scrollCount * acely);
-    busto.rotation.y += (0.001 * (acelx - 5));
+    lupa.rotation.y += (0.001 * (scrollCount + 1) * (acely - 5));
+    busto.rotation.y += (0.001 * acelx);
    // document.getElementById("demo").innerHTML = acely;
     
 
