@@ -143,6 +143,7 @@ objLoader.load('LUPA.obj', function (obj) {
         busto = mesh;
         scene.add(busto);
         busto.rotation.y = Math.PI;
+         busto.rotation.z = 0;
       });
     });
     
@@ -167,19 +168,28 @@ window.addEventListener('mousewheel', function(e){
 //acelerometro
 
 //var x;
-var acelCount = 1;
+var acelx = 1;
+var acelz = 1;
 
 window.addEventListener('devicemotion', function(e) 
 {
   // get accelerometer values
   //x = e.accelerationIncludingGravity.x;
 
-  if(e.accelerationIncludingGravity.x<0 && acelCount<5){
-    acelCount+=0.5;
+  if(e.accelerationIncludingGravity.x<0 && acelx<5){
+    acelx+=0.5;
   }
 
-  else if(e.accelerationIncludingGravity.x>0 && acelCount>-5){
-    acelCount-=0.5;
+  else if(e.accelerationIncludingGravity.x>0 && acelx>-5){
+    acelx-=0.5;
+  }
+  
+   if(e.accelerationIncludingGravity.z<0 && acelz<5){
+    acelz+=0.5;
+  }
+
+  else if(e.accelerationIncludingGravity.z>0 && acelz>-5){
+    acelz-=0.5;
   }
     
 });
@@ -205,8 +215,10 @@ window.addEventListener('devicemotion', function(e)
     requestAnimationFrame(animate);
     
     lupa.rotation.y -= (0.001 * scrollCount);
-    busto.rotation.y += (0.001 * acelCount);
-    document.getElementById("demo").innerHTML = acelCount;
+    busto.rotation.y += (0.001 * acelx);
+   busto.rotation.z += (0.001 * acelz);
+    document.getElementById("demo").innerHTML = acelx;
+   document.getElementById("demo").innerHTML = acelz;
     
 
     renderer.render(scene, camera);
