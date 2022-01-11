@@ -143,7 +143,6 @@ objLoader.load('LUPA.obj', function (obj) {
         busto = mesh;
         scene.add(busto);
         busto.rotation.y = Math.PI;
-         busto.rotation.z = 0;
       });
     });
     
@@ -235,7 +234,7 @@ window.addEventListener('devicemotion', function(e)
     requestAnimationFrame(animate);
     
     lupa.rotation.y += (0.001 * (scrollCount + 1) * (acely - 5));
-    busto.rotation.y += (0.001 * acelx);
+    busto.rotation.y -= (0.001 * acelx);
    // document.getElementById("demo").innerHTML = acely;
     
 
