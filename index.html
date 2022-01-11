@@ -177,20 +177,24 @@ window.addEventListener('devicemotion', function(e)
   //x = e.accelerationIncludingGravity.x;
 
   if(e.accelerationIncludingGravity.x<0 && acelx<5){
-    acelx+=0.5;
+    acelx+=0.1;
   }
 
   else if(e.accelerationIncludingGravity.x>0 && acelx>-5){
-    acelx-=0.5;
+    acelx-=0.1;
   }
   
    if(e.accelerationIncludingGravity.z<0 && acelz<5){
-    acelz+=0.5;
+    acelz+=0.1;
   }
 
   else if(e.accelerationIncludingGravity.z>0 && acelz>-5){
-    acelz-=0.5;
+    acelz-=0.1;
   }
+  
+    else if(e.accelerationIncludingGravity.x == 0 {
+    acelx = 0;        
+   }
     
 });
 
@@ -216,8 +220,7 @@ window.addEventListener('devicemotion', function(e)
     
     lupa.rotation.y -= (0.001 * scrollCount);
     busto.rotation.y += (0.001 * acelx);
-   busto.rotation.z += (0.001 * acelz);
-    document.getElementById("demo").innerHTML = acelx;
+   busto.rotation.x += (0.001 * acelz);
    document.getElementById("demo").innerHTML = acelz;
     
 
