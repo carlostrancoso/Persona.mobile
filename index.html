@@ -233,8 +233,8 @@ window.addEventListener('devicemotion', function(e)
  function animate() {
     requestAnimationFrame(animate);
     
-    lupa.rotation.y += (0.001 * (scrollCount + 1) * (acely - 5));
-    busto.rotation.y -= (0.001 * acelx);
+   if(lupa) lupa.rotation.y += (0.001 * (scrollCount + 1) * (acely - 5));
+   if(busto) busto.rotation.y -= (0.001 * acelx);
    // document.getElementById("demo").innerHTML = acely;
     
 
