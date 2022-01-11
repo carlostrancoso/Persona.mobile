@@ -192,8 +192,12 @@ window.addEventListener('devicemotion', function(e)
     acelz-=0.1;
   }
   
-    else if(e.accelerationIncludingGravity.x == 0 {
+    else if(e.accelerationIncludingGravity.x == 0 || e.accelerationIncludingGravity.x === undefined){
     acelx = 0;        
+   }
+  
+   else if(e.accelerationIncludingGravity.z == 0 || e.accelerationIncludingGravity.z === undefined){
+    acelz = 0;        
    }
     
 });
