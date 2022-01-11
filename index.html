@@ -174,12 +174,12 @@ window.addEventListener('devicemotion', function(e)
   // get accelerometer values
   //x = e.accelerationIncludingGravity.x;
 
-  if(e.accelerationIncludingGravity.x<0 && acelCount<10){
-    acelCount+=1;
+  if(e.accelerationIncludingGravity.x<0 && acelCount<5){
+    acelCount+=0.5;
   }
 
-  else if(e.accelerationIncludingGravity.x>0 && acelCount>-10){
-    acelCount-=1;
+  else if(e.accelerationIncludingGravity.x>0 && acelCount>-5){
+    acelCount-=0.5;
   }
     
 });
@@ -205,8 +205,8 @@ window.addEventListener('devicemotion', function(e)
     requestAnimationFrame(animate);
     
     lupa.rotation.y -= (0.001 * scrollCount);
-    busto.rotation.y += (0.002 * acelCount);
-    //document.getElementById("demo").innerHTML = acelCount;
+    busto.rotation.y += (0.001 * acelCount);
+    document.getElementById("demo").innerHTML = acelCount;
     
 
     renderer.render(scene, camera);
