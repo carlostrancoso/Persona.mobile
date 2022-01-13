@@ -24,46 +24,46 @@
     
   </style>
 
-<!--<p id="demo"></p>-->
-
   <script type="module">
-    import * as THREE from 'https://threejs.org/build/three.module.js';
-    import {OrbitControls} from 'https://threejs.org/examples/jsm/controls/OrbitControls.js';
-    import {OBJLoader} from 'https://threejs.org/examples/jsm/loaders/OBJLoader.js';
-    import {MTLLoader} from 'https://threejs.org/examples/jsm/loaders/MTLLoader.js';
+    
+   //bibliotecas
+   import * as THREE from 'https://threejs.org/build/three.module.js';
+   import {OrbitControls} from 'https://threejs.org/examples/jsm/controls/OrbitControls.js';
+   import {OBJLoader} from 'https://threejs.org/examples/jsm/loaders/OBJLoader.js';
+   import {MTLLoader} from 'https://threejs.org/examples/jsm/loaders/MTLLoader.js';
 
-
-  
-
+  //janela e motor render
   var canvas = document.querySelector('#c');
   var renderer = new THREE.WebGLRenderer({canvas, alpha:true});
   renderer.setClearColor( 0xEDEDED, 0 );
-
+    
+  //camera
   var fov = 25;
   var aspect = 2;  // the canvas default
   var near = 0.1;
   var far = 50;
   var camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
   camera.position.set(0, 10, 20);
-
+    
+  //controlo orbita
   var controls = new OrbitControls(camera, canvas);
   controls.enableDamping = true;
   controls.dampingFactor = 0.05;  
   controls.target.set(0, 2, 0);
   controls.enableZoom = false;
   controls.enablePan = false;
-
+    
+  //cena e fundo 
   const bgcolor = new THREE.Color(0xEDEDED);
   const scene = new THREE.Scene();
   scene.background = bgcolor;
 
-
+  //nevoeiro 
   {
   scene.fog = new THREE.Fog(bgcolor, 20, 21.5);
   }
 
-  
-
+  //luz ambiente
   {
     var skyColor = 0xB1E1FF;  // light blue
     var groundColor = 0xB97A20;  // brownish orange
@@ -71,9 +71,9 @@
     var light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
     scene.add(light);
   }
-
+    
+  //luz vermelha
   {
-    //luz vermelha
     var color = 0xE7071B;
     var intensity = 4;
     var light = new THREE.DirectionalLight(color, intensity);
@@ -82,8 +82,9 @@
     scene.add(light.target);
   }
 
-  { 
+   
     //luz azul
+  {
     var color = 0x0000FF;
     var intensity = 3;
     var light = new THREE.DirectionalLight(color, intensity);
@@ -92,8 +93,9 @@
     scene.add(light.target);
   }
 
-  { 
+   
     //luz verde
+  {
     var color = 0x00FF00;
     var intensity = 2;
     var light = new THREE.DirectionalLight(color, intensity);
@@ -153,7 +155,7 @@ objLoader.load('LUPA.obj', function (obj) {
   }
   
 
-  //scroll
+  //scroll para desktop
 
   var scrollCount = 0;
 window.addEventListener('mousewheel', function(e){
@@ -167,55 +169,25 @@ window.addEventListener('mousewheel', function(e){
   }
 });
 
-//acelerometro
-
-//var x;
+//acelerometro para mobile (não funciona no iframe do Wordpress)
+    
 var acelx = 1;
 var acely = 1;
 
-//window.addEventListener('devicemotion', function(e) 
-//{
-  // get accelerometer values
-  //x = e.accelerationIncludingGravity.x;
-
-  /*if(e.accelerationIncludingGravity.x<0 && acelx<5){
-    acelx+=0.1;
-  }
-
-  else if(e.accelerationIncludingGravity.x>0 && acelx>-5){
-    acelx-=0.1;
-  }
-  
-   if(e.accelerationIncludingGravity.y<5 && acely<5){
-    acely+=0.1;
-  }
-
-  else if(e.accelerationIncludingGravity.y>5 && acely>-5){
-    acely-=0.1;
-  }
-  
-    else if(e.accelerationIncludingGravity.x == 0 || e.accelerationIncludingGravity.x === undefined){
-    acelx = 0;        
+window.addEventListener('devicemotion', function(e) 
+{
+  if(e.accelerationIncludingGravity.x == 0 || e.accelerationIncludingGravity.x === undefined){
+    acelx = 1;        
    }
   
    else if(e.accelerationIncludingGravity.y == 0 || e.accelerationIncludingGravity.y === undefined){
-    acely = 0;        
+    acely = 1;        
+   } else {
+     acelx = e.accelerationIncludingGravity.x;
+      acely = e.accelerationIncludingGravity.y;
    }
-   */
-  
-  
-  //if(e.accelerationIncludingGravity.x == 0 || e.accelerationIncludingGravity.x === undefined){
-  //  acelx = 1;        
-  // }
-  
-  // else if(e.accelerationIncludingGravity.y == 0 || e.accelerationIncludingGravity.y === undefined){
-  //  acely = 1;        
-  // } else {
-  //   acelx = e.accelerationIncludingGravity.x;
-  //    acely = e.accelerationIncludingGravity.y;
-  // }
     
-//});
+});
     
     window.addEventListener("message", receiveMessage, false);
 function receiveMessage(event) {
@@ -224,7 +196,7 @@ function receiveMessage(event) {
 
 
 
-//responsivo
+//redimensionamento da janela
 
   function resizeRendererToDisplaySize(renderer) {
     var canvas = renderer.domElement;
@@ -243,9 +215,7 @@ function receiveMessage(event) {
     requestAnimationFrame(animate);
     
    if(lupa) lupa.rotation.y += (0.001 * (scrollCount + 1) * (acely - 5));
-   if(busto) busto.rotation.y -= (0.001 * acelx);
-   // document.getElementById("demo").innerHTML = acely;
-    
+   if(busto) busto.rotation.y -= (0.001 * acelx);    
 
     renderer.render(scene, camera);
 
