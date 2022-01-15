@@ -20,10 +20,50 @@
     #c:active {
     cursor: grabbing;
 }
+.icon-scroll,
+.icon-scroll:before {
+  position: absolute;
+    left: 50%;
+    top: -50%;
+}
+.icon-scroll {
+  width: 15px;
+  
+} 
+@media (max-width: 767px) {
+    .icon-scroll {
+        position: relative;
+    }
+}
+.icon-scroll:before {
+    content: '';
+    width: 15px;
+    height: 15px;
+    background: #ededed;
+    margin-left: -10px;
+    top: 20px;
+    border-radius: 5px;
+    animation-duration: 2.5s;
+    animation-iteration-count: infinite;
+    animation-name: scroll
+}
+@keyframes scroll {
+    0% {
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+  
+    100% {
+        opacity: 0;
+        transform: translateY(60px)
+    }
+}
 
     
   </style>
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script type="module">
     
    //bibliotecas
@@ -31,6 +71,12 @@
    import {OrbitControls} from 'https://threejs.org/examples/jsm/controls/OrbitControls.js';
    import {OBJLoader} from 'https://threejs.org/examples/jsm/loaders/OBJLoader.js';
    import {MTLLoader} from 'https://threejs.org/examples/jsm/loaders/MTLLoader.js';
+    
+   //scroll icon
+
+setTimeout(function() {
+    $('.icon-scroll').fadeOut('slow');
+}, 4000);
 
   //janela e motor render
   var canvas = document.querySelector('#c');
@@ -236,6 +282,7 @@ animate();
 
 <body>
   <canvas id="c"></canvas>
+  <div class="icon-scroll"></div>
 </body>
 
 </html>
