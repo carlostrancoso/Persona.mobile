@@ -189,18 +189,22 @@ objLoader.load('LUPA.obj', function (obj) {
     });
     }
 
-    //busto
+    //bustos
+
+    var sourceobj = 'BUSTO.obj';
+    var sourcemtl = 'BUSTO.mtl';
+
     var busto;
   {
     var mtlLoader = new MTLLoader();
-    mtlLoader.load('BUSTO.mtl', (mtl) => {
+    mtlLoader.load(sourcemtl, (mtl) => {
       mtl.preload();
       for (var material of Object.values(mtl.materials)) {
      material.side = THREE.DoubleSide;
       }
       var objLoader = new OBJLoader();
       objLoader.setMaterials(mtl);
-      objLoader.load('BUSTO.obj', (mesh) => {
+      objLoader.load(sourceobj, (mesh) => {
         busto = mesh;
         scene.add(busto);
         busto.rotation.y = Math.PI;
