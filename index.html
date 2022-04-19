@@ -87,6 +87,7 @@ setTimeout(function() {
     $('.icon-scroll').fadeOut('slow');
 }, 9000);
 
+
   //janela e motor render
   var canvas = document.querySelector('#c');
   var renderer = new THREE.WebGLRenderer({canvas, alpha:true});
@@ -191,27 +192,154 @@ objLoader.load('LUPA.obj', function (obj) {
 
     //bustos
 
-    var sourceobj = 'BUSTO.obj';
-    var sourcemtl = 'BUSTO.mtl';
+    var state = 0;
 
     var busto;
   {
     var mtlLoader = new MTLLoader();
-    mtlLoader.load(sourcemtl, (mtl) => {
+    mtlLoader.load('BUSTO.mtl', (mtl) => {
       mtl.preload();
       for (var material of Object.values(mtl.materials)) {
      material.side = THREE.DoubleSide;
       }
       var objLoader = new OBJLoader();
       objLoader.setMaterials(mtl);
-      objLoader.load(sourceobj, (mesh) => {
+      objLoader.load('BUSTO.obj', (mesh) => {
         busto = mesh;
         scene.add(busto);
         busto.rotation.y = Math.PI;
+        busto.visible = true;
       });
     });
     
   }
+  
+  var busto2;
+  {
+    var mtlLoader = new MTLLoader();
+    mtlLoader.load('BUSTO_2.mtl', (mtl) => {
+      mtl.preload();
+      for (var material of Object.values(mtl.materials)) {
+     material.side = THREE.DoubleSide;
+      }
+      var objLoader = new OBJLoader();
+      objLoader.setMaterials(mtl);
+      objLoader.load('BUSTO_2.obj', (mesh2) => {
+        busto2 = mesh2;
+        scene.add(busto2);
+        busto2.rotation.y = Math.PI;
+        busto2.visible = false;
+      });
+    });
+    
+  }
+
+  var busto3;
+  {
+    var mtlLoader = new MTLLoader();
+    mtlLoader.load('BUSTO_3.mtl', (mtl) => {
+      mtl.preload();
+      for (var material of Object.values(mtl.materials)) {
+     material.side = THREE.DoubleSide;
+      }
+      var objLoader = new OBJLoader();
+      objLoader.setMaterials(mtl);
+      objLoader.load('BUSTO_3.obj', (mesh3) => {
+        busto3 = mesh3;
+        scene.add(busto3);
+        busto3.rotation.y = Math.PI/10;
+        busto3.rotation.x = -Math.PI/20;
+        busto3.visible = false;
+      });
+    });
+    
+  }
+
+  var busto4;
+  {
+    var mtlLoader = new MTLLoader();
+    mtlLoader.load('BUSTO_4.mtl', (mtl) => {
+      mtl.preload();
+      for (var material of Object.values(mtl.materials)) {
+     material.side = THREE.DoubleSide;
+      }
+      var objLoader = new OBJLoader();
+      objLoader.setMaterials(mtl);
+      objLoader.load('BUSTO_4.obj', (mesh4) => {
+        busto4 = mesh4;
+        scene.add(busto4);
+        busto4.rotation.y = Math.PI/2;
+        busto4.visible = false;
+      });
+    });
+    
+  }
+
+  //Rotatividade dos modelos
+
+  document.addEventListener("mouseup", function(){
+    state++;
+
+    if (state == 0) {
+    busto.visible = true;
+    busto2.visible = false;
+    busto3.visible = false;
+    busto4.visible = false;
+  } else if (state == 1) {
+    busto.visible = false;
+    busto2.visible = true;
+    busto3.visible = false;
+    busto4.visible = false;
+  } else if (state == 2) {
+    busto.visible = false;
+    busto2.visible = false;
+    busto3.visible = true;
+    busto4.visible = false;
+  } else if (state == 3) {
+    busto.visible = false;
+    busto2.visible = false;
+    busto3.visible = false;
+    busto4.visible = true;
+  } else if (state >= 4) {
+    state = 0;
+    busto.visible = true;
+    busto2.visible = false;
+    busto3.visible = false;
+    busto4.visible = false;
+  }
+});
+
+document.addEventListener("touchend", function(){
+    state++;
+
+    if (state == 0) {
+    busto.visible = true;
+    busto2.visible = false;
+    busto3.visible = false;
+    busto4.visible = false;
+  } else if (state == 1) {
+    busto.visible = false;
+    busto2.visible = true;
+    busto3.visible = false;
+    busto4.visible = false;
+  } else if (state == 2) {
+    busto.visible = false;
+    busto2.visible = false;
+    busto3.visible = true;
+    busto4.visible = false;
+  } else if (state == 3) {
+    busto.visible = false;
+    busto2.visible = false;
+    busto3.visible = false;
+    busto4.visible = true;
+  } else if (state >= 4) {
+    state = 0;
+    busto.visible = true;
+    busto2.visible = false;
+    busto3.visible = false;
+    busto4.visible = false;
+  }
+});
   
 
   //scroll para desktop
@@ -227,6 +355,8 @@ window.addEventListener('mousewheel', function(e){
     scrollCount-=1;
   }
 });
+
+  
 
 //acelerometro para mobile (não funciona no iframe do Wordpress)
     
@@ -275,6 +405,9 @@ function receiveMessage(event) {
     
    if(lupa) lupa.rotation.y += (0.001 * (scrollCount + 1) * (acely - 5));
    if(busto) busto.rotation.y -= (0.001 * acelx);    
+   if(busto2) busto2.rotation.y += (0.001 * acelx);   
+   if(busto3) busto3.rotation.y -= (0.001 * acelx);   
+   if(busto4) busto4.rotation.y += (0.001 * acelx);   
 
     renderer.render(scene, camera);
 
@@ -284,6 +417,10 @@ function receiveMessage(event) {
       camera.updateProjectionMatrix();
     }
     controls.update();
+
+    console.log(state);
+
+    
     
 };
 
