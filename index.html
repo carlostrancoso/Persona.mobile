@@ -64,7 +64,24 @@
     }
 }
 
-    
+.loading-screen {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width:100%;
+    height: 100%;
+    background-color: rgba(237,237,237,0.8);
+    display: flex ;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal;
+    font-size: small;
+}
+
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script  type="importmap">{
@@ -87,6 +104,22 @@ setTimeout(function() {
     $('.icon-scroll').fadeOut('slow');
 }, 9000);
 
+  //loading screen
+
+  const manager = new THREE.LoadingManager();
+  const loadingContainer = document.querySelector('.loading-screen')
+
+  manager.onLoad = function ( ) {
+
+  loadingContainer.style.display='none';
+
+};
+
+manager.onError = function ( url ) {
+
+	console.log( 'There was an error loading ' + url );
+
+};
 
   //janela e motor render
   var canvas = document.querySelector('#c');
@@ -163,7 +196,7 @@ setTimeout(function() {
   //lupa
 var lupa;
   {
-    var objLoader = new OBJLoader();
+    var objLoader = new OBJLoader(manager);
     var mat = new THREE.MeshPhysicalMaterial({});
 mat.reflectivity = 0
 mat.transmission = 1
@@ -192,17 +225,15 @@ objLoader.load('LUPA.obj', function (obj) {
 
     //bustos
 
-    var state = 0;
-
     var busto;
   {
-    var mtlLoader = new MTLLoader();
+    var mtlLoader = new MTLLoader(manager);
     mtlLoader.load('BUSTO.mtl', (mtl) => {
       mtl.preload();
       for (var material of Object.values(mtl.materials)) {
      material.side = THREE.DoubleSide;
       }
-      var objLoader = new OBJLoader();
+      var objLoader = new OBJLoader(manager);
       objLoader.setMaterials(mtl);
       objLoader.load('BUSTO.obj', (mesh) => {
         busto = mesh;
@@ -216,13 +247,13 @@ objLoader.load('LUPA.obj', function (obj) {
   
   var busto2;
   {
-    var mtlLoader = new MTLLoader();
+    var mtlLoader = new MTLLoader(manager);
     mtlLoader.load('BUSTO_2.mtl', (mtl) => {
       mtl.preload();
       for (var material of Object.values(mtl.materials)) {
      material.side = THREE.DoubleSide;
       }
-      var objLoader = new OBJLoader();
+      var objLoader = new OBJLoader(manager);
       objLoader.setMaterials(mtl);
       objLoader.load('BUSTO_2.obj', (mesh2) => {
         busto2 = mesh2;
@@ -236,13 +267,13 @@ objLoader.load('LUPA.obj', function (obj) {
 
   var busto3;
   {
-    var mtlLoader = new MTLLoader();
+    var mtlLoader = new MTLLoader(manager);
     mtlLoader.load('BUSTO_3.mtl', (mtl) => {
       mtl.preload();
       for (var material of Object.values(mtl.materials)) {
      material.side = THREE.DoubleSide;
       }
-      var objLoader = new OBJLoader();
+      var objLoader = new OBJLoader(manager);
       objLoader.setMaterials(mtl);
       objLoader.load('BUSTO_3.obj', (mesh3) => {
         busto3 = mesh3;
@@ -257,13 +288,13 @@ objLoader.load('LUPA.obj', function (obj) {
 
   var busto4;
   {
-    var mtlLoader = new MTLLoader();
+    var mtlLoader = new MTLLoader(manager);
     mtlLoader.load('BUSTO_4.mtl', (mtl) => {
       mtl.preload();
       for (var material of Object.values(mtl.materials)) {
      material.side = THREE.DoubleSide;
       }
-      var objLoader = new OBJLoader();
+      var objLoader = new OBJLoader(manager);
       objLoader.setMaterials(mtl);
       objLoader.load('BUSTO_4.obj', (mesh4) => {
         busto4 = mesh4;
@@ -276,6 +307,8 @@ objLoader.load('LUPA.obj', function (obj) {
   }
 
   //Rotatividade dos modelos
+
+  var state = 0;
 
   document.addEventListener("mouseup", function(){
     state++;
@@ -433,6 +466,9 @@ animate();
 <body>
   <canvas id="c"></canvas>
   <div class="icon-scroll"></div>
+  <div class="loading-screen">
+    <label for="loading-screen">Loading...</label>
+  </div>
 </body>
 
 </html>
