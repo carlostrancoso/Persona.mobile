@@ -124,7 +124,7 @@ manager.onError = function ( url ) {
   //janela e motor render
   var canvas = document.querySelector('#c');
   var renderer = new THREE.WebGLRenderer({canvas, alpha:true});
-  renderer.setClearColor(0x3b9b46, 1 );
+  renderer.setClearColor(0xEDEDED, 1 );
     
   //camera
   var fov = 25;
@@ -143,13 +143,13 @@ manager.onError = function ( url ) {
   controls.enablePan = false;
     
   //cena e fundo 
-  const bgcolor = new THREE.Color(0x3b9b46);
+  const bgcolor = new THREE.Color(0xEDEDED);
   const scene = new THREE.Scene();
   scene.background = bgcolor;
 
   //nevoeiro 
   {
-  scene.fog = new THREE.Fog(0x3b9b46, 20, 21.5);
+  scene.fog = new THREE.Fog(0xEDEDED, 20, 21.5);
   }
 
   //luz ambiente
