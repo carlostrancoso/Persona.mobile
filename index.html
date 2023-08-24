@@ -156,7 +156,7 @@ manager.onError = function ( url ) {
   {
     var skyColor = 0xB1E1FF;  // light blue
     var groundColor = 0xB97A20;  // brownish orange
-    var intensity = 5;
+    var intensity = 15;
     var light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
     scene.add(light);
   }
@@ -164,7 +164,7 @@ manager.onError = function ( url ) {
   //luz vermelha
   {
     var color = 0xE7071B;
-    var intensity = 4;
+    var intensity = 5;
     var light = new THREE.DirectionalLight(color, intensity);
     light.position.set(5, 10, 10);
     scene.add(light);
@@ -175,7 +175,7 @@ manager.onError = function ( url ) {
     //luz azul
   {
     var color = 0x0000FF;
-    var intensity = 3;
+    var intensity = 4;
     var light = new THREE.DirectionalLight(color, intensity);
     light.position.set(10, 12, 2);
     scene.add(light);
@@ -186,7 +186,7 @@ manager.onError = function ( url ) {
     //luz verde
   {
     var color = 0x00FF00;
-    var intensity = 2;
+    var intensity = 3;
     var light = new THREE.DirectionalLight(color, intensity);
     light.position.set(-10, 5, 2);
     scene.add(light);
